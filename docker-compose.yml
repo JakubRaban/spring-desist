@@ -20,6 +20,8 @@ services:
       MYSQL_ROOT_PASSWORD: 'root'
     volumes:
     - ./sql:/docker-entrypoint-initdb.d
+    cap_add:
+      - SYS_NICE
     healthcheck:
       test: "/usr/bin/mysql --user=root --password=root --execute \"SHOW DATABASES;\""
       interval: 2s

@@ -2,11 +2,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-  data:
-    rest:
-      base-path: /api
   datasource:
     url: jdbc:mysql://db:3306/desistdb?autoReconnect=true&allowPublicKeyRetrieval=true
     username: desistdb
     password: desistdb
     driver-class-name: com.mysql.cj.jdbc.Driver
+security:
+  basic:
+    enable: false
+  ignored: /**

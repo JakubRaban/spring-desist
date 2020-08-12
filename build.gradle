@@ -2,12 +2,11 @@ plugins {
     id 'org.springframework.boot' version '2.3.2.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
-    id 'org.siouan.frontend' version '3.0.0'
 }
 
 group = 'pl.jakubraban'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '12'
+sourceCompatibility = '11'
 
 configurations {
     compileOnly {
@@ -39,8 +38,5 @@ test {
     useJUnitPlatform()
 }
 
-jar {
-    manifest {
-        attributes 'Main-Class': 'pl.jakubraban.springdesist.SpringDesistApplication'
-    }
-}
+apply plugin: 'application'
+mainClassName = 'pl.jakubraban.springdesist.SpringDesistApplication'
