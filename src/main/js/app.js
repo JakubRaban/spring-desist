@@ -1,5 +1,5 @@
-const React = require('react')
-const ReactDOM = require('react-dom')
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 class App extends React.Component {
 
@@ -9,7 +9,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-
+        fetch('https://localhost:8080')
     }
 
     render() {
