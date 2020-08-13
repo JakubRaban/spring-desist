@@ -7,13 +7,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.annotation.Validated;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 
 @Entity
 @Data
@@ -30,6 +29,9 @@ public class User implements UserDetails {
     private final String name;
     private final String email;
     private String password;
+
+    @OneToMany(mappedBy = "lockOwner")
+    private Set<Lock> ownedLocks;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -21,8 +21,8 @@ public class LockController {
     }
 
     @GetMapping("/locks")
-    public List<Lock> getUserLocks() {
-        return this.lockRepository.findAll();
+    public Set<Lock> getUserLocks(Authentication authentication) {
+        return ((User) authentication.getPrincipal()).getOwnedLocks();
     }
 
 }

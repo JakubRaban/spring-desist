@@ -42,7 +42,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         var token = request.getHeader("Authorization");
         if (token != null && !token.isEmpty() && token.startsWith("Bearer ")) {
             try {
-                byte[] signingKey = SecretKey.get();
+                byte[] signingKey = SecretKey.getForJwt();
                 Jws<Claims> parsedToken = Jwts.parser()
                         .setSigningKey(signingKey)
                         .parseClaimsJws(token.replace("Bearer ", ""));
