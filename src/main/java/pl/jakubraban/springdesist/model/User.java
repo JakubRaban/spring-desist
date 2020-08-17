@@ -1,5 +1,6 @@
 package pl.jakubraban.springdesist.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,12 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Data
@@ -26,12 +24,18 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(nullable = false)
     private final String name;
+
+    @Column(unique = true, nullable = false, length = 60)
     private final String email;
+
+    @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "lockOwner")
-    private Set<Lock> ownedLocks;
+    @OneToMany(mappedBy = "owner")
+    @JsonIgnore
+    private List<Lock> ownedLocks;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -66,5 +70,18 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return email.equals(user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email);
     }
 }

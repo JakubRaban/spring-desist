@@ -1,6 +1,8 @@
 package pl.jakubraban.springdesist.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
@@ -12,7 +14,8 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
+@NoArgsConstructor(access = AccessLevel.PACKAGE, force = true)
+@Getter
 @Table(name = "password_lock")
 public class Lock {
 
@@ -21,37 +24,39 @@ public class Lock {
     private Long id;
 
     @ManyToOne
-    private User lockOwner;
+    @JsonIgnore
+    private User owner;
 
-    private String lockIdentifier;
+    private String name;
     private String encryptedPassword;
     private LocalDateTime timeCreated;
     private LocalDateTime timeActivated;
     private LocalDateTime expirationTime;
 
     @Enumerated(EnumType.STRING)
-    private LockStatus lockStatus;
+    private LockStatus status;
 
-    @Transient private final TextEncryptor encryptor = Encryptors.delux(lockOwner.getPassword(), SecretKey.getForLockOpening());
+    @Transient @JsonIgnore private final TextEncryptor encryptor;
 
-    public Lock(User lockOwner, String lockIdentifier, String plainTextPassword) {
-        this.lockOwner = lockOwner;
-        this.lockIdentifier = lockIdentifier;
+    public Lock(User owner, String lockIdentifier, String plainTextPassword) {
+        this.encryptor = Encryptors.delux(owner.getPassword(), SecretKey.getForLockOpening());
+        this.owner = owner;
+        this.name = lockIdentifier;
         this.encryptedPassword = encryptor.encrypt(plainTextPassword);
         this.timeCreated = LocalDateTime.now();
-        this.lockStatus = LockStatus.CREATED;
+        this.status = LockStatus.CREATED;
     }
 
     public void activate(Duration duration) {
-        if (this.lockStatus == LockStatus.ACTIVE) throw new LockException("This lock is already active");
+        if (this.status == LockStatus.ACTIVE) throw new LockException("This lock is already active");
         this.timeActivated = LocalDateTime.now();
         this.expirationTime = this.timeActivated.plus(duration);
-        this.lockStatus = LockStatus.ACTIVE;
+        this.status = LockStatus.ACTIVE;
     }
 
     public String open() {
         if (!isExpired()) throw new LockException("This lock is yet to expire");
-        this.lockStatus = LockStatus.OPENED;
+        this.status = LockStatus.OPENED;
         return encryptor.decrypt(this.encryptedPassword);
     }
 

@@ -4,7 +4,7 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL5Dialect
   datasource:
-    url: jdbc:mysql://localhost:3306/desistdb?autoReconnect=true&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://db:3306/desistdb?autoReconnect=true&allowPublicKeyRetrieval=true
     username: desistdb
     password: desistdb
     driver-class-name: com.mysql.cj.jdbc.Driver
