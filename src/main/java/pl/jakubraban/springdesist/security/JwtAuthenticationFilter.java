@@ -1,5 +1,6 @@
 package pl.jakubraban.springdesist.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -9,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import pl.jakubraban.springdesist.form.LoginForm;
 import pl.jakubraban.springdesist.model.User;
 
 import javax.servlet.FilterChain;
@@ -31,9 +33,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+        LoginForm loginForm = parseLoginData(request);
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(loginForm.getEmail(), loginForm.getPassword());
         return authenticationManager.authenticate(authenticationToken);
     }
 
@@ -54,5 +56,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .claim("role", roles)
                 .compact();
         response.addHeader("Authorization", "Bearer " + token);
+    }
+
+    private LoginForm parseLoginData(HttpServletRequest request) {
+        try {
+            return new ObjectMapper().readValue(request.getInputStream(), LoginForm.class);
+        } catch (IOException e) {
+            return new LoginForm();
+        }
     }
 }
