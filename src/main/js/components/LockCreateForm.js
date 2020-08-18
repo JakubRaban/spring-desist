@@ -5,22 +5,29 @@ import InputGroup from "react-bootstrap/InputGroup"
 import FormControl from 'react-bootstrap/FormControl'
 import {connect} from 'react-redux'
 import {createLock} from "../redux/actions";
+import randomPasswordGenerator from "../randomPasswordGenerator";
 
 class LockCreateForm extends React.Component {
 
-    state = {lockName: '', password: ''}
+    initialState = {lockName: '', password: ''}
+    state = {...this.initialState}
 
     onSubmit = e => {
         e.preventDefault();
         this.props.createLock(this.state.lockName, this.state.password);
+        this.setState({...this.initialState})
     }
 
     onChange = e => this.setState({[e.target.name]: e.target.value})
 
+    onGenerateRandomly = () => {
+        this.setState({password: randomPasswordGenerator(16)})
+    }
+
     render() {
         const {lockName, password} = this.state;
         return (
-            <div className={"border"}>
+            <div className={"border m-2"}>
                 <Form>
                     <Form.Group controlId={"lockCreateFormName"}>
                         <Form.Label>Lock name</Form.Label>
@@ -33,7 +40,8 @@ class LockCreateForm extends React.Component {
                             <FormControl type={"password"} placeholder={"Enter password"} name={"password"}
                                          value={password} onChange={this.onChange}/>
                             <InputGroup.Append>
-                                <Button variant={"outline-secondary"}>Generate randomly</Button>
+                                <Button variant={"outline-secondary"} onClick={this.onGenerateRandomly}>Generate
+                                    randomly</Button>
                             </InputGroup.Append>
                         </InputGroup>
                     </Form.Group>
