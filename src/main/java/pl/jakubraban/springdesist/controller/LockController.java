@@ -40,7 +40,7 @@ public class LockController {
     @PostMapping("/locks")
     public ResponseEntity<Lock> createLock(@RequestBody CreateLockForm form, Principal principal) {
         Lock newLock = new Lock(userRepository.findByEmail(principal.getName()),
-                form.getLockIdentifier(),
+                form.getLockName(),
                 form.getPlainTextPassword());
         return new ResponseEntity<>(lockRepository.save(newLock), HttpStatus.CREATED);
     }

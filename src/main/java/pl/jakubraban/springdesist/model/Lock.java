@@ -38,10 +38,10 @@ public class Lock {
 
     @Transient @JsonIgnore private final TextEncryptor encryptor;
 
-    public Lock(User owner, String lockIdentifier, String plainTextPassword) {
+    public Lock(User owner, String name, String plainTextPassword) {
         this.encryptor = Encryptors.delux(owner.getPassword(), SecretKey.getForLockOpening());
         this.owner = owner;
-        this.name = lockIdentifier;
+        this.name = name;
         this.encryptedPassword = encryptor.encrypt(plainTextPassword);
         this.timeCreated = LocalDateTime.now();
         this.status = LockStatus.CREATED;

@@ -9,7 +9,7 @@ import javax.validation.constraints.Pattern;
 @RequiredArgsConstructor
 public class CreateLockForm {
 
-    private String lockIdentifier;
+    private String lockName;
     private String plainTextPassword;
 
 }
