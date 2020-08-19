@@ -49,10 +49,13 @@ public class Lock {
     }
 
     public void activate(Duration duration) {
-        if (this.status == LockStatus.ACTIVE) throw new LockException("This lock is already active");
-        this.timeActivated = ZonedDateTime.now();
-        this.expirationTime = this.timeActivated.plus(duration);
-        this.status = LockStatus.ACTIVE;
+        if (this.status == LockStatus.CREATED) {
+            this.timeActivated = ZonedDateTime.now();
+            this.expirationTime = this.timeActivated.plus(duration);
+            this.status = LockStatus.ACTIVE;
+        } else {
+            this.expirationTime = this.expirationTime.plus(duration);
+        }
     }
 
     public String open() {

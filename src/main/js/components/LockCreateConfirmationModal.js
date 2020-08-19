@@ -11,7 +11,7 @@ class LockCreateConfirmationModal extends React.Component {
         isShown: false
     }
 
-    onCopyClick = () => {navigator.clipboard.writeText(this.state.password)}
+    onCopyClick = () => navigator.clipboard.writeText(this.state.password)
 
     showWithData = (lockName, password) => {
         this.setState({lockName, password, isShown: true})

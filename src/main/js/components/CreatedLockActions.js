@@ -18,7 +18,7 @@ class CreatedLockActions extends React.Component {
         return (
             <>
                 <LockActivateModal lock={this.props.lock} ref={this.activateModalRef}
-                                   activateCallback={this.onActivateLock}/>
+                                   activateCallback={this.onActivateLock} isFirstActivation={true}/>
                 <ButtonGroup size={"sm"}>
                     <Button variant={"success"} onClick={this.onActivateClick}>Activate</Button>
                     {this.props.lock.plainTextPassword && <Button variant={"secondary"} onClick={this.onCopyToClipboardClick}>Copy to clipboard</Button>}
