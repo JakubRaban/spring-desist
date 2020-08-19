@@ -42,8 +42,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         if (token != null && !token.isEmpty() && token.startsWith("Bearer ")) {
             try {
                 byte[] signingKey = SecretKey.getForJwt();
-                Jws<Claims> parsedToken = Jwts.parser()
+                Jws<Claims> parsedToken = Jwts.parserBuilder()
                         .setSigningKey(signingKey)
+                        .build()
                         .parseClaimsJws(token.replace("Bearer ", ""));
                 String username = parsedToken
                         .getBody()
