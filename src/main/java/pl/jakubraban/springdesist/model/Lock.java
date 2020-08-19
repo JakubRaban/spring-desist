@@ -12,6 +12,7 @@ import pl.jakubraban.springdesist.security.SecretKey;
 import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PACKAGE, force = true)
@@ -29,9 +30,9 @@ public class Lock {
 
     private String name;
     private String encryptedPassword;
-    private LocalDateTime timeCreated;
-    private LocalDateTime timeActivated;
-    private LocalDateTime expirationTime;
+    private ZonedDateTime timeCreated;
+    private ZonedDateTime timeActivated;
+    private ZonedDateTime expirationTime;
 
     @Enumerated(EnumType.STRING)
     private LockStatus status;
@@ -43,13 +44,13 @@ public class Lock {
         this.owner = owner;
         this.name = name;
         this.encryptedPassword = encryptor.encrypt(plainTextPassword);
-        this.timeCreated = LocalDateTime.now();
+        this.timeCreated = ZonedDateTime.now();
         this.status = LockStatus.CREATED;
     }
 
     public void activate(Duration duration) {
         if (this.status == LockStatus.ACTIVE) throw new LockException("This lock is already active");
-        this.timeActivated = LocalDateTime.now();
+        this.timeActivated = ZonedDateTime.now();
         this.expirationTime = this.timeActivated.plus(duration);
         this.status = LockStatus.ACTIVE;
     }
@@ -61,7 +62,7 @@ public class Lock {
     }
 
     private boolean isExpired() {
-        return expirationTime.isBefore(LocalDateTime.now());
+        return expirationTime.isBefore(ZonedDateTime.now());
     }
 
 }

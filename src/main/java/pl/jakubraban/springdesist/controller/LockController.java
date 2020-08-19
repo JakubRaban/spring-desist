@@ -45,9 +45,8 @@ public class LockController {
         return new ResponseEntity<>(lockRepository.save(newLock), HttpStatus.CREATED);
     }
 
-    @PostMapping("locks/{id}/activate")
+    @PatchMapping("locks/{id}/activate")
     public ResponseEntity<Lock> activateLock(@PathVariable @Min(1) Long id, @RequestBody @Pattern(regexp = "PT\\d+S") String duration, Principal principal) {
-        System.out.println(duration);
         User user = userRepository.findByEmail(principal.getName());
         Lock lockToActivate = lockRepository.findById(id).get();
         if (lockToActivate.getOwner().equals(user)) {
