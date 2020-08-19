@@ -37,9 +37,19 @@ export const createLock = (lockName, plainTextPassword) => (dispatch, getState) 
         })
 }
 
-const getHeaders = getState => {
+export const activateLock = (lock, durationInSeconds) => (dispatch, getState) => {
+    axios({method: 'patch', url: `/locks/${lock.id}/activate`, data: `PT${durationInSeconds}S`, headers: getHeaders(getState, false)})
+        .then(result => {
+            dispatch({
+                type: actions.ACTIVATE_LOCK,
+                payload: result.data
+            })
+        })
+}
+
+const getHeaders = (getState, isJson = true) => {
     const basicHeaders = {
-        'Content-Type': 'application/json'
+        'Content-Type': isJson ? 'application/json' : 'text/plain'
     }
     const user = getState().user
     if (user && user.token) {

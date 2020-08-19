@@ -28,9 +28,9 @@ class LockCreateConfirmationModal extends React.Component {
                 <Modal.Body>
                     <p>Lock was successfully created. Copy this:</p>
                     <InputGroup>
-                        <FormControl readonly type={"password"} value={this.state.password} />
+                        <FormControl readOnly type={"password"} value={this.state.password} />
                         <InputGroup.Append>
-                            <Button variant={"outline-secondary"} onClick={this.onCopyClick}>Copy</Button>
+                            <Button variant={"outline-secondary"} onClick={this.onCopyClick}>Copy to clipboard</Button>
                         </InputGroup.Append>
                     </InputGroup>
                     <p>and set it as your <strong>{this.state.lockName}</strong> password.</p>

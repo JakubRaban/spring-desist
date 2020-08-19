@@ -32,7 +32,7 @@ class LockCreateForm extends React.Component {
         return (
             <>
                 <LockCreateConfirmationModal ref={this.modalElement}/>
-                <div className={"border m-2"}>
+                <div className={"border p-4"}>
                     <Form>
                         <Form.Group controlId={"lockCreateFormName"}>
                             <Form.Label>Lock name</Form.Label>
