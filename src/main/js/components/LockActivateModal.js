@@ -8,8 +8,8 @@ class LockActivateModal extends React.Component {
 
     state = {
         isShown: false,
-        amount: '',
-        unit: ''
+        amount: '45',
+        unit: 'minutes'
     }
 
     show = () => this.setState({isShown: true})
@@ -43,7 +43,7 @@ class LockActivateModal extends React.Component {
                     <Modal.Title>Activate lock</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>Choose the duration you want to activate {this.props.lock.name} lock for:</p>
+                    <p>Choose the duration you want to activate <strong>{this.props.lock.name}</strong> lock for:</p>
                     <Form inline>
                         <Form.Control placeholder={"45"} type={"text"} name={"amount"} value={amount} onChange={this.onChange}/>
                         <Form.Control as={"select"} value={unit} name={"unit"} onChange={this.onChange}>
