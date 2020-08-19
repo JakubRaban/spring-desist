@@ -30,6 +30,7 @@ export const getLocks = () => (dispatch, getState) => {
 export const createLock = (lockName, plainTextPassword) => (dispatch, getState) => {
     axios({method: "post", url: "/locks", data: JSON.stringify({lockName, plainTextPassword}), headers: getHeaders(getState)})
         .then(result => {
+            result.data.plainTextPassword = plainTextPassword
             dispatch({
                 type: actions.CREATE_LOCK,
                 payload: result.data
@@ -43,6 +44,16 @@ export const activateLock = (lock, durationInSeconds) => (dispatch, getState) =>
             dispatch({
                 type: actions.ACTIVATE_LOCK,
                 payload: result.data
+            })
+        })
+}
+
+export const deleteLock = lock => (dispatch, getState) => {
+    axios({method: 'delete', url: `/locks/${lock.id}`, headers: getHeaders(getState)})
+        .then(result => {
+            dispatch({
+                type: actions.DELETE_LOCK,
+                payload: lock
             })
         })
 }

@@ -4,7 +4,6 @@ import * as actions from './action-types'
 export const initialState = {
     user: {
         isLoggedIn: false,
-        loading: false
     },
     locks: []
 }
@@ -18,20 +17,19 @@ export default function reducer(state = initialState, action) {
                     ...state.user,
                     token: action.payload.token,
                     isLoggedIn: true,
-                    loading: false
                 }
             }
         case actions.GET_LOCKS:
             return {
                 ...state,
-                locks: action.payload.map(lock => mapLockDateStringToDateObject(lock))
+                locks: action.payload.map(lock => mapLockDateStringsToDateObjects(lock))
             }
         case actions.CREATE_LOCK:
             return {
                 ...state,
                 locks: [
                     ...state.locks,
-                    mapLockDateStringToDateObject(action.payload)
+                    mapLockDateStringsToDateObjects(action.payload)
                 ]
             }
         case actions.ACTIVATE_LOCK:
@@ -39,15 +37,20 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 locks: [
                     ...state.locks.filter(lock => lock.id !== action.payload.id),
-                    mapLockDateStringToDateObject(action.payload)
+                    mapLockDateStringsToDateObjects(action.payload)
                 ]
+            }
+        case actions.DELETE_LOCK:
+            return {
+                ...state,
+                locks: state.locks.filter(lock => lock.id !== action.payload.id)
             }
         default:
             return state;
     }
 }
 
-const mapLockDateStringToDateObject = lock => {
+const mapLockDateStringsToDateObjects = lock => {
     const mappedLock = {...lock}
     mappedLock.timeActivated = mappedLock.timeActivated ? new Date(mappedLock.timeActivated) : null
     mappedLock.timeCreated = mappedLock.timeCreated ? new Date(mappedLock.timeCreated) : null

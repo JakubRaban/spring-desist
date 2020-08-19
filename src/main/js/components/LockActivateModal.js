@@ -52,6 +52,7 @@ class LockActivateModal extends React.Component {
                             <option>days</option>
                         </Form.Control>
                     </Form>
+                    <p><strong>After this operation, you will only be able to access your password after the time specified above would pass</strong></p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant={"secondary"} onClick={this.onClose}>Cancel</Button>

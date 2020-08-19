@@ -3,28 +3,26 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Button from 'react-bootstrap/Button'
 import LockActivateModal from "./LockActivateModal";
 import {connect} from 'react-redux'
-import {activateLock} from "../redux/actions";
+import {activateLock, deleteLock} from "../redux/actions";
 
 class CreatedLockActions extends React.Component {
 
     activateModalRef = React.createRef()
 
-    onActivateClick = () => {
-        this.activateModalRef.current.show();
-    }
-
-    onActivateLock = timeInSeconds => {
-        this.props.activateLock(this.props.lock, timeInSeconds)
-    }
+    onActivateClick = () => this.activateModalRef.current.show();
+    onCopyToClipboardClick = () => navigator.clipboard.writeText(this.props.lock.plainTextPassword)
+    onDeleteClick = () => this.props.deleteLock(this.props.lock);
+    onActivateLock = timeInSeconds => this.props.activateLock(this.props.lock, timeInSeconds);
 
     render() {
         return (
             <>
-                <LockActivateModal lock={this.props.lock} ref={this.activateModalRef} activateCallback={this.onActivateLock}/>
+                <LockActivateModal lock={this.props.lock} ref={this.activateModalRef}
+                                   activateCallback={this.onActivateLock}/>
                 <ButtonGroup size={"sm"}>
                     <Button variant={"success"} onClick={this.onActivateClick}>Activate</Button>
-                    <Button variant={"secondary"}>Copy password</Button>
-                    <Button variant={"danger"}>Delete</Button>
+                    {this.props.lock.plainTextPassword && <Button variant={"secondary"} onClick={this.onCopyToClipboardClick}>Copy to clipboard</Button>}
+                    <Button variant={"danger"} onClick={this.onDeleteClick}>Delete</Button>
                 </ButtonGroup>
             </>
         )
@@ -32,4 +30,4 @@ class CreatedLockActions extends React.Component {
 
 }
 
-export default connect(null, {activateLock})(CreatedLockActions);
+export default connect(null, {activateLock, deleteLock})(CreatedLockActions);

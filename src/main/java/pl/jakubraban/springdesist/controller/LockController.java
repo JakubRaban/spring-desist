@@ -57,6 +57,17 @@ public class LockController {
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
+    @DeleteMapping("/locks/{id}")
+    public ResponseEntity<Lock> deleteLock(@PathVariable @Min(1) Long id, Principal principal) {
+        User user = userRepository.findByEmail(principal.getName());
+        Lock lockToDelete = lockRepository.findById(id).get();
+        if (lockToDelete.getOwner().equals(user)) {
+            lockRepository.delete(lockToDelete);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    }
+
     @ExceptionHandler(NoSuchElementException.class)
     private ResponseEntity<?> handleNoSuchElement() {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
