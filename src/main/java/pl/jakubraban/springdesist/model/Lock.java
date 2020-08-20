@@ -11,7 +11,6 @@ import pl.jakubraban.springdesist.security.SecretKey;
 
 import javax.persistence.*;
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 @Entity
@@ -49,13 +48,13 @@ public class Lock {
     }
 
     public void activate(Duration duration) {
-        if (this.status == LockStatus.CREATED) {
+        if (this.status == LockStatus.CREATED || isExpired()) {
             this.timeActivated = ZonedDateTime.now();
             this.expirationTime = this.timeActivated.plus(duration);
-            this.status = LockStatus.ACTIVE;
         } else {
             this.expirationTime = this.expirationTime.plus(duration);
         }
+        this.status = LockStatus.ACTIVE;
     }
 
     public String open() {

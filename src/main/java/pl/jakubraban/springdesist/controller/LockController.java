@@ -17,7 +17,13 @@ import java.security.Principal;
 import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
+
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
 @Validated
@@ -47,25 +53,36 @@ public class LockController {
 
     @PatchMapping("locks/{id}/activate")
     public ResponseEntity<Lock> activateLock(@PathVariable @Min(1) Long id, @RequestBody @Pattern(regexp = "PT\\d+S") String duration, Principal principal) {
-        User user = userRepository.findByEmail(principal.getName());
-        Lock lockToActivate = lockRepository.findById(id).get();
-        if (lockToActivate.getOwner().equals(user)) {
-            lockToActivate.activate(Duration.parse(duration));
-            lockRepository.save(lockToActivate);
-            return new ResponseEntity<>(lockToActivate, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        return this.doIfOwnsLock(principal, id, lock -> {
+            lock.activate(Duration.parse(duration));
+            lockRepository.save(lock);
+        }).map(lock -> new ResponseEntity<>(lock, OK)).orElse(new ResponseEntity<>(FORBIDDEN));
+    }
+
+    @PatchMapping("/locks/{id}/open")
+    public ResponseEntity<String> openLock(@PathVariable @Min(1) Long id, Principal principal) {
+        AtomicReference<String> plainTextPassword = new AtomicReference<>();
+        return this.doIfOwnsLock(principal, id, lock -> {
+            plainTextPassword.set(lock.open());
+            lockRepository.save(lock);
+        }).map(lock -> new ResponseEntity<>(plainTextPassword.get(), OK)).orElse(new ResponseEntity<>(FORBIDDEN));
     }
 
     @DeleteMapping("/locks/{id}")
     public ResponseEntity<Lock> deleteLock(@PathVariable @Min(1) Long id, Principal principal) {
+        return this.doIfOwnsLock(principal, id, lockRepository::delete)
+                .map(lock -> new ResponseEntity<Lock>(NO_CONTENT))
+                .orElse(new ResponseEntity<>(FORBIDDEN));
+    }
+
+    private Optional<Lock> doIfOwnsLock(Principal principal, Long lockId, Consumer<Lock> operation) {
         User user = userRepository.findByEmail(principal.getName());
-        Lock lockToDelete = lockRepository.findById(id).get();
-        if (lockToDelete.getOwner().equals(user)) {
-            lockRepository.delete(lockToDelete);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        Lock requestedLock = lockRepository.findById(lockId).get();
+        if (requestedLock.getOwner().equals(user)) {
+            operation.accept(requestedLock);
+            return Optional.of(requestedLock);
         }
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        return Optional.empty();
     }
 
     @ExceptionHandler(NoSuchElementException.class)
