@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.jakubraban.springdesist.form.CreateLockForm;
+import pl.jakubraban.springdesist.form.LockOpenResponseForm;
 import pl.jakubraban.springdesist.model.Lock;
 import pl.jakubraban.springdesist.model.User;
 import pl.jakubraban.springdesist.repository.LockRepository;
@@ -60,12 +61,16 @@ public class LockController {
     }
 
     @PatchMapping("/locks/{id}/open")
-    public ResponseEntity<String> openLock(@PathVariable @Min(1) Long id, Principal principal) {
+    public ResponseEntity<LockOpenResponseForm> openLock(@PathVariable @Min(1) Long id, Principal principal) {
         AtomicReference<String> plainTextPassword = new AtomicReference<>();
         return this.doIfOwnsLock(principal, id, lock -> {
             plainTextPassword.set(lock.open());
             lockRepository.save(lock);
-        }).map(lock -> new ResponseEntity<>(plainTextPassword.get(), OK)).orElse(new ResponseEntity<>(FORBIDDEN));
+        })
+                .map(lock ->
+                        new ResponseEntity<>(new LockOpenResponseForm(lock, plainTextPassword.get()), OK)
+                )
+                .orElse(new ResponseEntity<>(FORBIDDEN));
     }
 
     @DeleteMapping("/locks/{id}")

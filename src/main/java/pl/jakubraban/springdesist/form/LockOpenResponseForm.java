@@ -2,12 +2,13 @@ package pl.jakubraban.springdesist.form;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import pl.jakubraban.springdesist.model.Lock;
 
 @Data
 @AllArgsConstructor
-public class CreateLockForm {
+public class LockOpenResponseForm {
 
-    private String lockName;
+    private Lock openedLock;
     private String plainTextPassword;
 
 }
