@@ -7,13 +7,23 @@ export const EXPIRED_MSG = "Expired"
 export const OPENED = "OPENED";
 export const OPENED_MSG = "Opened"
 
-export const getMessage = lock => {
+export const lockStatusToMessage = {
+    CREATED: CREATED_MSG,
+    ACTIVE: ACTIVE_MSG,
+    EXPIRED: EXPIRED_MSG,
+    OPENED: OPENED_MSG
+}
+
+export const getLockStatus = lock => {
     switch (lock.status) {
         case CREATED:
-            return CREATED_MSG;
+            return CREATED
         case ACTIVE:
-            return ACTIVE_MSG;
+            if (lock.expirationTime.getTime() < new Date().getTime())
+                return EXPIRED
+            else
+                return ACTIVE
         case OPENED:
-            return OPENED_MSG;
+            return OPENED
     }
 }
