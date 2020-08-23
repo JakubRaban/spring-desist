@@ -10,4 +10,8 @@ public class LoginForm {
     private String email;
     private String password;
 
+    public static LoginForm empty() {
+        return new LoginForm("", "");
+    }
+
 }
