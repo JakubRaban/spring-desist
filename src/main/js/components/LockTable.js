@@ -15,27 +15,31 @@ class LockTable extends React.Component {
         return (
             <Table>
                 <thead>
-                    <tr>
-                        <th>Lock name</th>
-                        <th>Status</th>
-                        <th>Created at</th>
-                        <th>Active until</th>
-                        <th>Actions</th>
-                    </tr>
+                <tr>
+                    <th>Lock name</th>
+                    <th>Status</th>
+                    <th>Created at</th>
+                    <th>Active until</th>
+                    <th>Actions</th>
+                </tr>
                 </thead>
                 <tbody>
-                {this.props.locks.map(lock => (
-                    <LockTableRow key={lock.id} lock={lock} />
-                ))}
+                {this.props.locks.length > 0 ?
+                    this.props.locks.map(lock => <LockTableRow key={lock.id} lock={lock}/>) :
+                    <tr>
+                        <td colSpan={"5"} style={{textAlign: "center", backgroundColor: "#cdcdcd"}}>
+                            <h5>No locks created yet. Create first one below</h5>
+                        </td>
+                    </tr>
+                }
                 </tbody>
             </Table>
         )
     }
-
 }
 
 const mapStateToProps = state => ({
     locks: state.locks
 })
 
-export default connect(mapStateToProps, {getLocks})(LockTable)
+export default connect(mapStateToProps, {getLocks})(LockTable);
