@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as actions from "./action-types"
+import get from "@babel/runtime/helpers/esm/get";
 
 export const login = (email, password) => (dispatch, getState) => {
     axios({method: "post", url: "/login", data: JSON.stringify({email, password}), headers: getHeaders(getState)})
@@ -48,9 +49,19 @@ export const activateLock = (lock, durationInSeconds) => (dispatch, getState) =>
         })
 }
 
+export const openLock = lock => (dispatch, getState) => {
+    axios({method: 'patch', url: `/locks/${lock.id}/open`, headers: getHeaders(getState, false)})
+        .then(result => {
+            dispatch({
+                type: actions.OPEN_LOCK,
+                payload: result.data
+            })
+        })
+}
+
 export const deleteLock = lock => (dispatch, getState) => {
     axios({method: 'delete', url: `/locks/${lock.id}`, headers: getHeaders(getState)})
-        .then(result => {
+        .then(_ => {
             dispatch({
                 type: actions.DELETE_LOCK,
                 payload: lock

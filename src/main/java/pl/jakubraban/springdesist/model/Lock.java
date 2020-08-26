@@ -36,13 +36,10 @@ public class Lock {
     @Enumerated(EnumType.STRING)
     private LockStatus status;
 
-    @Transient @JsonIgnore private final TextEncryptor encryptor;
-
     public Lock(User owner, String name, String plainTextPassword) {
-        this.encryptor = Encryptors.delux(owner.getPassword(), SecretKey.getForLockOpening());
         this.owner = owner;
         this.name = name;
-        this.encryptedPassword = encryptor.encrypt(plainTextPassword);
+        this.encryptedPassword = getEncryptor().encrypt(plainTextPassword);
         this.timeCreated = ZonedDateTime.now();
         this.status = LockStatus.CREATED;
     }
@@ -60,11 +57,15 @@ public class Lock {
     public String open() {
         if (!isExpired()) throw new LockException("This lock is yet to expire");
         this.status = LockStatus.OPENED;
-        return encryptor.decrypt(this.encryptedPassword);
+        return getEncryptor().decrypt(this.encryptedPassword);
     }
 
     private boolean isExpired() {
         return expirationTime.isBefore(ZonedDateTime.now());
+    }
+
+    private TextEncryptor getEncryptor() {
+        return Encryptors.delux(owner.getPassword(), SecretKey.getForLockOpening());
     }
 
 }

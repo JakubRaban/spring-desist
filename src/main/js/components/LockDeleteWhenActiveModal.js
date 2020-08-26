@@ -1,7 +1,7 @@
 import React from 'react'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
-import {ACTIVE} from "../LockStatus";
+import {ACTIVE, getLockStatus} from "../LockStatus";
 
 class LockDeleteWhenActiveModal extends React.Component {
 
@@ -17,8 +17,7 @@ class LockDeleteWhenActiveModal extends React.Component {
     }
 
     render() {
-        // TODO przenieść logikę sprawdzania statusu locka do nowej metody która uwzględni czy termin ważności upłynął
-        const userActionExplanation = this.props.lock.status === ACTIVE ? "is yet to expire" : "you haven't opened yet"
+        const userActionExplanation = getLockStatus(this.props.lock) === ACTIVE ? "is yet to expire" : "you haven't opened yet"
         return (
             <Modal show={this.state.isShown} onHide={this.onClose}>
                 <Modal.Header closeButton>
