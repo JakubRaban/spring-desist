@@ -62,7 +62,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             return new ObjectMapper().readValue(request.getInputStream(), LoginForm.class);
         } catch (IOException e) {
-            return LoginForm.empty();
+            return new LoginForm();
         }
     }
 }

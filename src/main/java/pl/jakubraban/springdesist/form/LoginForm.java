@@ -1,17 +1,13 @@
 package pl.jakubraban.springdesist.form;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class LoginForm {
 
     private String email;
     private String password;
-
-    public static LoginForm empty() {
-        return new LoginForm("", "");
-    }
 
 }
