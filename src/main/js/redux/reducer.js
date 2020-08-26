@@ -40,6 +40,15 @@ export default function reducer(state = initialState, action) {
                     mapLockDateStringsToDateObjects(action.payload)
                 ]
             }
+        case actions.OPEN_LOCK:
+            action.payload.openedLock.plainTextPassword = action.payload.plainTextPassword
+            return {
+                ...state,
+                locks: [
+                    ...state.locks.filter(lock => lock.id !== action.payload.openedLock.id),
+                    mapLockDateStringsToDateObjects(action.payload.openedLock)
+                ]
+            }
         case actions.DELETE_LOCK:
             return {
                 ...state,
