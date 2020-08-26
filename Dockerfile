@@ -13,5 +13,5 @@ COPY build.gradle settings.gradle ./
 RUN gradle clean build --no-daemon > /dev/null 2>&1 || true
 COPY --from=frontend app/bundle.js app/bundle.js.map src/main/resources/static/built/
 COPY src src
-RUN gradle assemble --no-daemon
+RUN gradle clean assemble --no-daemon
 ENTRYPOINT ["java", "-jar", "build/libs/spring-desist-0.0.1-SNAPSHOT.jar"]
