@@ -33,4 +33,4 @@ out/
 ### VS Code ###
 .vscode/
 
-src/main/java/pl/jakubraban/springdesist/security/SecretKey.java
+src/main/java/pl/jakubraban/springdesist/config/security/SecretKey.java

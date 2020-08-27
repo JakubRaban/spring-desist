@@ -1,4 +1,4 @@
-package pl.jakubraban.springdesist.security;
+package pl.jakubraban.springdesist.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;

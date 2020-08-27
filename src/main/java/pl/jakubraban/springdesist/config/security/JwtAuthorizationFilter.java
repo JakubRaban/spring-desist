@@ -1,4 +1,4 @@
-package pl.jakubraban.springdesist.security;
+package pl.jakubraban.springdesist.config.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import pl.jakubraban.springdesist.exception.LockException;
-import pl.jakubraban.springdesist.security.SecretKey;
+import pl.jakubraban.springdesist.config.security.SecretKey;
 
 import javax.persistence.*;
 import java.time.Duration;
