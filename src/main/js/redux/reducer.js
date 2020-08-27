@@ -8,11 +8,17 @@ export const initialState = {
     },
     registrationPhase: OperationPhase.NOT_EXECUTED,
     registrationConfirmationPhase: OperationPhase.NOT_EXECUTED,
+    loginPhase: OperationPhase.NOT_EXECUTED,
     locks: [],
 }
 
 export default function reducer(state = initialState, action) {
     switch (action.type) {
+        case actions.LOGIN_INIT:
+            return {
+                ...state,
+                loginPhase: OperationPhase.INIT
+            }
         case actions.LOGIN_SUCCESSFUL:
             return {
                 ...state,
@@ -20,7 +26,13 @@ export default function reducer(state = initialState, action) {
                     ...state.user,
                     token: action.payload.token,
                     isLoggedIn: true,
-                }
+                },
+                loginPhase: OperationPhase.SUCCESS
+            }
+        case actions.LOGIN_FAILED:
+            return {
+                ...state,
+                loginPhase: OperationPhase.FAIL
             }
         case actions.REGISTRATION_INIT:
             return {

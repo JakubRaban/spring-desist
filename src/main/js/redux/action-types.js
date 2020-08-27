@@ -1,4 +1,5 @@
-export const LOGIN_SUCCESSFUL = "login";
+export const LOGIN_INIT = "loginInit";
+export const LOGIN_SUCCESSFUL = "loginSuccessful";
 export const LOGIN_FAILED = "loginFailed";
 export const REGISTRATION_INIT = "registrationInit";
 export const REGISTRATION_SUCCESSFUL = "registrationSuccessful";

@@ -37,14 +37,14 @@ class LockCreateForm extends React.Component {
                     <Form>
                         <Form.Group controlId={"lockCreateFormName"}>
                             <Form.Label>Lock name</Form.Label>
-                            <Form.Control type={"text"} placeholder={"Enter lock name"} name={"lockName"}
+                            <Form.Control type={"text"} placeholder={"e.g. Facebook, Twitter, Instagram etc."} name={"lockName"}
                                           value={lockName}
                                           onChange={this.onChange}/>
                         </Form.Group>
                         <Form.Group controlId={"lockCreateFormPassword"}>
                             <Form.Label>Password</Form.Label>
                             <InputGroup className={"mb-3"}>
-                                <FormControl type={"password"} placeholder={"Enter password"} name={"password"}
+                                <FormControl type={"password"} placeholder={"Enter any password you won't remember"} name={"password"}
                                              value={password} onChange={this.onChange}/>
                                 <InputGroup.Append>
                                     <Button variant={"outline-secondary"} onClick={this.onGenerateRandomly}>Generate

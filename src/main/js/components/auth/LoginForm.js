@@ -7,6 +7,8 @@ import Col from "react-bootstrap/Col";
 import {connect} from 'react-redux';
 import {login} from "../../redux/actions";
 import {Redirect, Link} from 'react-router-dom'
+import Alert from "react-bootstrap/Alert";
+import * as OperationPhase from "../../OperationPhase"
 
 class LoginForm extends React.Component {
 
@@ -14,6 +16,7 @@ class LoginForm extends React.Component {
 
     onSubmit = e => {
         e.preventDefault();
+        this.setState({showLoginFailedAlert: true})
         this.props.login(this.state.email, this.state.password);
     }
 
@@ -30,6 +33,9 @@ class LoginForm extends React.Component {
                     <Col md={"8"}>
                         <div className={"border p-3 m-2"}>
                             <h3>Login into Desist</h3>
+                            <Alert variant={"danger"} show={this.props.loginPhase === OperationPhase.FAIL}>
+                                Login failed. Please make sure your account is active and your credentials are correct.
+                            </Alert>
                             <Form>
                                 <Form.Group controlId={"loginFormEmail"}>
                                     <Form.Label>Email</Form.Label>
@@ -42,7 +48,9 @@ class LoginForm extends React.Component {
                                     <Form.Control type={"password"} name={"password"} placeholder={"(hidden)"}
                                                   value={password} onChange={this.onChange}/>
                                 </Form.Group>
-                                <Button variant={"primary"} type={"submit"} onClick={this.onSubmit}>Submit</Button>
+                                <Button variant={"primary"} type={"submit"} onClick={this.onSubmit} disabled={this.props.loginPhase === OperationPhase.INIT}>
+                                    {this.props.loginPhase === OperationPhase.INIT ? "Logging in..." : "Submit"}
+                                </Button>
                             </Form>
                             <div className={"pt-3"}>New to Desist? <Link to={"/register"}>Create an account</Link></div>
                         </div>
@@ -55,7 +63,8 @@ class LoginForm extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    user: state.user
+    user: state.user,
+    loginPhase: state.loginPhase
 })
 
 export default connect(mapStateToProps, {login})(LoginForm);

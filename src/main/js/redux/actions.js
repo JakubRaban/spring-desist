@@ -1,6 +1,5 @@
 import axios from "axios";
 import * as actions from "./action-types"
-import get from "@babel/runtime/helpers/esm/get";
 
 export const login = (email, password) => (dispatch, getState) => {
     axios({method: "post", url: "/api/login", data: JSON.stringify({email, password}), headers: getHeaders(getState)})
@@ -13,9 +12,7 @@ export const login = (email, password) => (dispatch, getState) => {
                 }
             })
         })
-        .catch(err => {
-            dispatch({type: actions.LOGIN_FAILED})
-        })
+        .catch(() => dispatch({type: actions.LOGIN_FAILED}))
 }
 
 export const register = (name, email, password) => (dispatch, getState) => {
@@ -32,16 +29,8 @@ export const register = (name, email, password) => (dispatch, getState) => {
 export const confirmRegistration = token => (dispatch, getState) => {
     dispatch({type: actions.CONFIRMATION_INIT})
     axios({method: 'patch', url: `/api/register/confirm/${token}`, headers: getHeaders(getState)})
-        .then(result => {
-            dispatch({
-                type: actions.CONFIRMATION_SUCCESSFUL
-            })
-        })
-        .catch(err => {
-            dispatch({
-                type: actions.CONFIRMATION_FAILED
-            })
-        })
+        .then(() => dispatch({type: actions.CONFIRMATION_SUCCESSFUL}))
+        .catch(() => dispatch({type: actions.CONFIRMATION_FAILED}))
 }
 
 export const getLocks = () => (dispatch, getState) => {
@@ -87,7 +76,7 @@ export const openLock = lock => (dispatch, getState) => {
 
 export const deleteLock = lock => (dispatch, getState) => {
     axios({method: 'delete', url: `/api/locks/${lock.id}`, headers: getHeaders(getState)})
-        .then(_ => {
+        .then(() => {
             dispatch({
                 type: actions.DELETE_LOCK,
                 payload: lock
