@@ -3,9 +3,10 @@ import * as actions from './action-types'
 
 export const initialState = {
     user: {
-        isLoggedIn: false,
+        isLoggedIn: false
     },
-    locks: []
+    locks: [],
+    registrationSuccessful: false
 }
 
 export default function reducer(state = initialState, action) {
@@ -18,6 +19,11 @@ export default function reducer(state = initialState, action) {
                     token: action.payload.token,
                     isLoggedIn: true,
                 }
+            }
+        case actions.REGISTRATION_SUCCESSFUL:
+            return {
+                ...state,
+                registrationSuccessful: true
             }
         case actions.GET_LOCKS:
             return {

@@ -18,6 +18,16 @@ export const login = (email, password) => (dispatch, getState) => {
         })
 }
 
+export const register = (name, email, password) => (dispatch, getState) => {
+    axios({method: 'post', url: '/api/register', data: JSON.stringify({name, email, password}), headers: getHeaders(getState)})
+        .then(result => {
+            dispatch({
+                type: actions.REGISTRATION_SUCCESSFUL,
+                payload: result.data
+            })
+        })
+}
+
 export const getLocks = () => (dispatch, getState) => {
     axios({method: "get", url: "/api/locks", headers: getHeaders(getState)})
         .then(result => {

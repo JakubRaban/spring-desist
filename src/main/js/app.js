@@ -7,10 +7,9 @@ import thunk from "redux-thunk"
 import {initialState} from "./redux/reducer";
 import { composeWithDevTools } from 'redux-devtools-extension';
 import MainPage from "./components/MainPage";
-import PrivateRoute from "./components/auth/PrivateRoute";
 import LoginForm from "./components/auth/LoginForm";
-
-import { Switch, Route, BrowserRouter as Router} from 'react-router-dom'
+import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
+import RegistrationForm from "./components/auth/RegistrationForm";
 
 const store = createStore(reducer, initialState, composeWithDevTools(applyMiddleware(thunk)));
 
@@ -30,6 +29,7 @@ class App extends React.Component {
             <Router>
                 <Switch>
                     <Route exact path={"/login"} component={LoginForm} />
+                    <Route exact path={"/register"} component={RegistrationForm} />
                     <Route exact path={"/"} component={MainPage} />
                 </Switch>
             </Router>

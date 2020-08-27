@@ -15,15 +15,8 @@ export const lockStatusToMessage = {
 }
 
 export const getLockStatus = lock => {
-    switch (lock.status) {
-        case CREATED:
-            return CREATED
-        case ACTIVE:
-            if (lock.expirationTime.getTime() < new Date().getTime())
-                return EXPIRED
-            else
-                return ACTIVE
-        case OPENED:
-            return OPENED
+    if (lock.status === ACTIVE && lock.expirationTime.getTime() < new Date().getTime()) {
+        return EXPIRED
     }
+    return lock.status
 }
