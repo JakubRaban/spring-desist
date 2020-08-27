@@ -27,7 +27,7 @@ class RegistrationForm extends React.Component {
     }
 
     render() {
-        if (this.props.user.isLoggedIn) return <Redirect to={"/"} />
+        if (this.props.user.isLoggedIn) return <Redirect to={"/"}/>
         const {fullName, email, password, confirmedPassword} = this.state
         return (
             <Container>
@@ -64,7 +64,10 @@ class RegistrationForm extends React.Component {
                                                   value={confirmedPassword}
                                                   onChange={this.onChange}/>
                                 </Form.Group>
-                                <Button variant={"primary"} type={"submit"} onClick={this.onSubmit}>Submit</Button>
+                                <Button variant={"primary"} type={"submit"} onClick={this.onSubmit}
+                                        disabled={this.props.registrationInitialized}>
+                                    {this.props.registrationInitialized ? "Loading..." : "Submit"}
+                                </Button>
                             </Form>}
                         </div>
                     </Col>
@@ -77,7 +80,8 @@ class RegistrationForm extends React.Component {
 
 const mapStateToProps = state => ({
     user: state.user,
-    registrationSuccessful: state.registrationSuccessful
+    registrationSuccessful: state.registrationSuccessful,
+    registrationInitialized: state.registrationInitialized
 })
 
 export default connect(mapStateToProps, {register})(RegistrationForm);

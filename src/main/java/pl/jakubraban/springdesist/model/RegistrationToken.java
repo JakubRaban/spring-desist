@@ -16,6 +16,7 @@ public class RegistrationToken {
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @MapsId
+    @JsonIgnore
     private User user;
 
     @Column(length = 36)
@@ -30,7 +31,6 @@ public class RegistrationToken {
         return token;
     }
 
-    @JsonIgnore
     public User getUser() {
         return user;
     }

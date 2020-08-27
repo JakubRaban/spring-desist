@@ -6,6 +6,7 @@ export const initialState = {
         isLoggedIn: false
     },
     locks: [],
+    registrationInitialized: false,
     registrationSuccessful: false
 }
 
@@ -20,10 +21,16 @@ export default function reducer(state = initialState, action) {
                     isLoggedIn: true,
                 }
             }
+        case actions.REGISTRATION_INIT:
+            return {
+                ...state,
+                registrationInitialized: true
+            }
         case actions.REGISTRATION_SUCCESSFUL:
             return {
                 ...state,
-                registrationSuccessful: true
+                registrationSuccessful: true,
+                registrationInitialized: false
             }
         case actions.GET_LOCKS:
             return {

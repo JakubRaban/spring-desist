@@ -19,6 +19,7 @@ export const login = (email, password) => (dispatch, getState) => {
 }
 
 export const register = (name, email, password) => (dispatch, getState) => {
+    dispatch({type: actions.REGISTRATION_INIT})
     axios({method: 'post', url: '/api/register', data: JSON.stringify({name, email, password}), headers: getHeaders(getState)})
         .then(result => {
             dispatch({

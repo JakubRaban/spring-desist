@@ -1,5 +1,6 @@
 export const LOGIN_SUCCESSFUL = "login";
 export const LOGIN_FAILED = "loginFailed";
+export const REGISTRATION_INIT = "registrationInit";
 export const REGISTRATION_SUCCESSFUL = "registrationSuccessful";
 export const GET_LOCKS = "getLocks";
 export const CREATE_LOCK = "createLock";
