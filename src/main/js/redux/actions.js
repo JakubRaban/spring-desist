@@ -29,6 +29,21 @@ export const register = (name, email, password) => (dispatch, getState) => {
         })
 }
 
+export const confirmRegistration = token => (dispatch, getState) => {
+    dispatch({type: actions.CONFIRMATION_INIT})
+    axios({method: 'patch', url: `/api/register/confirm/${token}`, headers: getHeaders(getState)})
+        .then(result => {
+            dispatch({
+                type: actions.CONFIRMATION_SUCCESSFUL
+            })
+        })
+        .catch(err => {
+            dispatch({
+                type: actions.CONFIRMATION_FAILED
+            })
+        })
+}
+
 export const getLocks = () => (dispatch, getState) => {
     axios({method: "get", url: "/api/locks", headers: getHeaders(getState)})
         .then(result => {

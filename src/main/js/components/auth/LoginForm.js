@@ -6,7 +6,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import {connect} from 'react-redux';
 import {login} from "../../redux/actions";
-import {Redirect} from 'react-router-dom'
+import {Redirect, Link} from 'react-router-dom'
 
 class LoginForm extends React.Component {
 
@@ -44,6 +44,7 @@ class LoginForm extends React.Component {
                                 </Form.Group>
                                 <Button variant={"primary"} type={"submit"} onClick={this.onSubmit}>Submit</Button>
                             </Form>
+                            <div className={"pt-3"}>New to Desist? <Link to={"/register"}>Create an account</Link></div>
                         </div>
                     </Col>
                 </Row>

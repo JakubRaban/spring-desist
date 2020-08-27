@@ -1,13 +1,14 @@
 
 import * as actions from './action-types'
+import * as OperationPhase from '../OperationPhase'
 
 export const initialState = {
     user: {
         isLoggedIn: false
     },
+    registrationPhase: OperationPhase.NOT_EXECUTED,
+    registrationConfirmationPhase: OperationPhase.NOT_EXECUTED,
     locks: [],
-    registrationInitialized: false,
-    registrationSuccessful: false
 }
 
 export default function reducer(state = initialState, action) {
@@ -24,13 +25,27 @@ export default function reducer(state = initialState, action) {
         case actions.REGISTRATION_INIT:
             return {
                 ...state,
-                registrationInitialized: true
+                registrationPhase: OperationPhase.INIT
             }
         case actions.REGISTRATION_SUCCESSFUL:
             return {
                 ...state,
-                registrationSuccessful: true,
-                registrationInitialized: false
+                registrationPhase: OperationPhase.SUCCESS
+            }
+        case actions.CONFIRMATION_INIT:
+            return {
+                ...state,
+                registrationConfirmationPhase: OperationPhase.INIT
+            }
+        case actions.CONFIRMATION_SUCCESSFUL:
+            return {
+                ...state,
+                registrationConfirmationPhase: OperationPhase.SUCCESS
+            }
+        case actions.CONFIRMATION_FAILED:
+            return {
+                ...state,
+                registrationConfirmationPhase: OperationPhase.FAIL
             }
         case actions.GET_LOCKS:
             return {
