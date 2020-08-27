@@ -27,6 +27,7 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
+@RequestMapping("/api")
 @Validated
 public class LockController {
 

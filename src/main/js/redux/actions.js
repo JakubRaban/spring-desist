@@ -3,7 +3,7 @@ import * as actions from "./action-types"
 import get from "@babel/runtime/helpers/esm/get";
 
 export const login = (email, password) => (dispatch, getState) => {
-    axios({method: "post", url: "/login", data: JSON.stringify({email, password}), headers: getHeaders(getState)})
+    axios({method: "post", url: "/api/login", data: JSON.stringify({email, password}), headers: getHeaders(getState)})
         .then(res => {
             dispatch({
                 type: actions.LOGIN_SUCCESSFUL,
@@ -19,7 +19,7 @@ export const login = (email, password) => (dispatch, getState) => {
 }
 
 export const getLocks = () => (dispatch, getState) => {
-    axios({method: "get", url: "/locks", headers: getHeaders(getState)})
+    axios({method: "get", url: "/api/locks", headers: getHeaders(getState)})
         .then(result => {
             dispatch({
                 type: actions.GET_LOCKS,
@@ -29,7 +29,7 @@ export const getLocks = () => (dispatch, getState) => {
 }
 
 export const createLock = (lockName, plainTextPassword) => (dispatch, getState) => {
-    axios({method: "post", url: "/locks", data: JSON.stringify({lockName, plainTextPassword}), headers: getHeaders(getState)})
+    axios({method: "post", url: "/api/locks", data: JSON.stringify({lockName, plainTextPassword}), headers: getHeaders(getState)})
         .then(result => {
             result.data.plainTextPassword = plainTextPassword
             dispatch({
@@ -40,7 +40,7 @@ export const createLock = (lockName, plainTextPassword) => (dispatch, getState) 
 }
 
 export const activateLock = (lock, durationInSeconds) => (dispatch, getState) => {
-    axios({method: 'patch', url: `/locks/${lock.id}/activate`, data: `PT${durationInSeconds}S`, headers: getHeaders(getState, false)})
+    axios({method: 'patch', url: `/api/locks/${lock.id}/activate`, data: `PT${durationInSeconds}S`, headers: getHeaders(getState, false)})
         .then(result => {
             dispatch({
                 type: actions.ACTIVATE_LOCK,
@@ -50,7 +50,7 @@ export const activateLock = (lock, durationInSeconds) => (dispatch, getState) =>
 }
 
 export const openLock = lock => (dispatch, getState) => {
-    axios({method: 'patch', url: `/locks/${lock.id}/open`, headers: getHeaders(getState, false)})
+    axios({method: 'patch', url: `/api/locks/${lock.id}/open`, headers: getHeaders(getState, false)})
         .then(result => {
             dispatch({
                 type: actions.OPEN_LOCK,
@@ -60,7 +60,7 @@ export const openLock = lock => (dispatch, getState) => {
 }
 
 export const deleteLock = lock => (dispatch, getState) => {
-    axios({method: 'delete', url: `/locks/${lock.id}`, headers: getHeaders(getState)})
+    axios({method: 'delete', url: `/api/locks/${lock.id}`, headers: getHeaders(getState)})
         .then(_ => {
             dispatch({
                 type: actions.DELETE_LOCK,
