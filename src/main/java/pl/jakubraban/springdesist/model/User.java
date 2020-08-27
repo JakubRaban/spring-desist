@@ -14,7 +14,7 @@ import java.util.*;
 
 @Entity
 @Data
-@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
+@NoArgsConstructor(access = AccessLevel.PACKAGE, force = true)
 @RequiredArgsConstructor
 public class User implements UserDetails {
 
@@ -33,13 +33,11 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @OneToOne(mappedBy = "user")
-    @JsonIgnore
-    private RegistrationToken registrationToken;
-
     @OneToMany(mappedBy = "owner")
     @JsonIgnore
     private List<Lock> ownedLocks;
+
+    private boolean isEnabled = false;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -73,7 +71,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isEnabled;
     }
 
     @Override

@@ -1,20 +1,21 @@
 package pl.jakubraban.springdesist.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.OnDelete;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PACKAGE, force = true)
 public class RegistrationToken {
 
     @Id
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @MapsId
-    @JsonIgnore
     private User user;
 
     @Column(length = 36)
@@ -27,6 +28,11 @@ public class RegistrationToken {
 
     public String getToken() {
         return token;
+    }
+
+    @JsonIgnore
+    public User getUser() {
+        return user;
     }
 
 }

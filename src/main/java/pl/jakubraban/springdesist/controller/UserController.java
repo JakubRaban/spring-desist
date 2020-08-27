@@ -2,10 +2,7 @@ package pl.jakubraban.springdesist.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.jakubraban.springdesist.mail.DesistEmailService;
 import pl.jakubraban.springdesist.model.RegistrationToken;
 import pl.jakubraban.springdesist.model.User;
@@ -42,6 +39,15 @@ public class UserController {
                         "http://localhost:8080/register/confirm/" + token.getToken()
         );
         return user;
+    }
+
+    @PatchMapping("/register/confirm/{token}")
+    public User confirmRegistration(@PathVariable String token) {
+        RegistrationToken registrationToken = tokenRepository.findByToken(token);
+        User confirmedUser = registrationToken.getUser();
+        confirmedUser.setEnabled(true);
+        userRepository.save(confirmedUser);
+        return confirmedUser;
     }
 
 }
