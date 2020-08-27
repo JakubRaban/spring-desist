@@ -33,6 +33,10 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @OneToOne(mappedBy = "user")
+    @JsonIgnore
+    private RegistrationToken registrationToken;
+
     @OneToMany(mappedBy = "owner")
     @JsonIgnore
     private List<Lock> ownedLocks;

@@ -8,3 +8,12 @@ spring:
     username: desistdb
     password: desistdb
     driver-class-name: com.mysql.cj.jdbc.Driver
+  mail:
+    host: smtp.poczta.onet.pl
+    port: 587
+    username:
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
