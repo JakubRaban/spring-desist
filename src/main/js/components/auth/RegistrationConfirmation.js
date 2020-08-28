@@ -16,9 +16,9 @@ class RegistrationConfirmation extends React.Component {
             <>
                 {this.props.registrationConfirmationPhase === OperationPhase.INIT ? <h1>Activating your account</h1> :
                     this.props.registrationConfirmationPhase === OperationPhase.SUCCESS ?
-                        <><h1>Account successfully activated.</h1><br/><h2>You can now <Link
+                        <><h1>Account successfully activated.</h1><h2>You can now <Link
                             to={"/login"}>login</Link></h2></> :
-                "Activation failed"}
+                        <><h1>Activation failed.</h1><h2>Please check whether the address is correct</h2></>}
             </>
         )
     }
