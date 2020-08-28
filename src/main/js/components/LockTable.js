@@ -12,6 +12,7 @@ class LockTable extends React.Component {
     }
 
     render() {
+        this.props.locks.sort((a, b) => a.name.localeCompare(b.name))
         return (
             <Table>
                 <thead>

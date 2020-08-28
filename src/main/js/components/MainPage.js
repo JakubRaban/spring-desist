@@ -6,6 +6,8 @@ import LockTable from "./LockTable"
 import LockCreateForm from "./LockCreateForm";
 import {Redirect} from "react-router-dom";
 import {connect} from 'react-redux'
+import {getLocks} from "../redux/actions";
+import Button from "react-bootstrap/Button";
 
 class MainPage extends React.Component {
 
@@ -14,8 +16,13 @@ class MainPage extends React.Component {
         return (
             <Container>
                 <Row className={"justify-content-md-center"}>
-                    <Col md={10}>
+                    <Col md={12}>
                         <LockTable/>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={12}>
+                        <Button onClick={() => this.props.getLocks()} variant={"outline-primary"}>Refresh</Button>
                     </Col>
                 </Row>
                 <Row className={"justify-content-md-center"}>
@@ -33,4 +40,4 @@ const mapStateToProps = state => ({
     isLoggedIn: state.user.isLoggedIn
 })
 
-export default connect(mapStateToProps)(MainPage);
+export default connect(mapStateToProps, {getLocks})(MainPage);
