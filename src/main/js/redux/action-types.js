@@ -8,6 +8,7 @@ export const CONFIRMATION_SUCCESSFUL = "confirmationSuccessful";
 export const CONFIRMATION_FAILED = "confirmationFailed";
 export const GET_LOCKS = "getLocks";
 export const CREATE_LOCK = "createLock";
+export const CREATE_LOCK_FAILED = "createLockFailed";
 export const ACTIVATE_LOCK = "activateLock"
 export const DELETE_LOCK = "deleteLock"
 export const OPEN_LOCK = "openLock";

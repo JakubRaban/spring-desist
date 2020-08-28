@@ -14,8 +14,8 @@ class RegistrationConfirmation extends React.Component {
     render() {
         return (
             <>
-                {this.props.registrationConfirmationPhase === OperationPhase.INIT ? <h1>Activating your account</h1> :
-                    this.props.registrationConfirmationPhase === OperationPhase.SUCCESS ?
+                {this.props.confirmPhase === OperationPhase.INIT ? <h1>Activating your account</h1> :
+                    this.props.confirmPhase === OperationPhase.SUCCESS ?
                         <><h1>Account successfully activated.</h1><h2>You can now <Link
                             to={"/login"}>login</Link></h2></> :
                         <><h1>Activation failed.</h1><h2>Please check whether the address is correct</h2></>}
@@ -25,7 +25,7 @@ class RegistrationConfirmation extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    registrationConfirmationPhase: state.registrationConfirmationPhase
+    confirmPhase: state.actions.registerConfirm.phase
 })
 
 export default connect(mapStateToProps, {confirmRegistration})(RegistrationConfirmation);

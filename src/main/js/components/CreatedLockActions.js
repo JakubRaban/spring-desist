@@ -21,13 +21,12 @@ class CreatedLockActions extends React.Component {
                                    activateCallback={this.onActivateLock} isFirstActivation={true}/>
                 <ButtonGroup size={"sm"}>
                     <Button variant={"success"} onClick={this.onActivateClick}>Activate</Button>
-                    {this.props.lock.plainTextPassword && <Button variant={"secondary"} onClick={this.onCopyToClipboardClick}>Copy to clipboard</Button>}
+                    {this.props.lock.plainTextPassword && <Button variant={"secondary"} onClick={this.onCopyToClipboardClick}>Copy password</Button>}
                     <Button variant={"danger"} onClick={this.onDeleteClick}>Delete</Button>
                 </ButtonGroup>
             </>
         )
     }
-
 }
 
 export default connect(null, {activateLock, deleteLock})(CreatedLockActions);

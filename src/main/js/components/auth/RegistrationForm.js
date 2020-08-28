@@ -87,7 +87,7 @@ class RegistrationForm extends React.Component {
 
 const mapStateToProps = state => ({
     user: state.user,
-    registrationPhase: state.registrationPhase,
+    registrationPhase: state.actions.register.phase,
 })
 
 export default connect(mapStateToProps, {register})(RegistrationForm);

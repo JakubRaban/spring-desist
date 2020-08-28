@@ -13,27 +13,27 @@ class LockCreateConfirmationModal extends React.Component {
 
     onCopyClick = () => navigator.clipboard.writeText(this.state.password)
 
-    showWithData = (lockName, password) => {
-        this.setState({lockName, password, isShown: true})
+    show = () => this.setState({isShown: true})
+    close = () => {
+        this.props.resetInput()
+        this.setState({isShown: false})
     }
-
-    close = () => this.setState({isShown: false})
 
     render() {
         return (
-            <Modal show={this.state.isShown} onHide={this.close}>
+            <Modal show={this.state.isShown && this.props.success} onHide={this.close}>
                 <Modal.Header closeButton>
                     <Modal.Title>Lock created</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <p>Lock was successfully created. Copy this:</p>
                     <InputGroup>
-                        <FormControl readOnly type={"password"} value={this.state.password} />
+                        <FormControl readOnly type={"password"} value={this.props.password} />
                         <InputGroup.Append>
                             <Button variant={"outline-secondary"} onClick={this.onCopyClick}>Copy to clipboard</Button>
                         </InputGroup.Append>
                     </InputGroup>
-                    <p>and set it as your <strong>{this.state.lockName}</strong> password.</p>
+                    <p>and set it as your <strong>{this.props.lockName}</strong> password.</p>
                     <p>Click on "Activate" when you're done.</p>
                 </Modal.Body>
                 <Modal.Footer>

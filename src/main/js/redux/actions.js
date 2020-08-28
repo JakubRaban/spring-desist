@@ -52,6 +52,12 @@ export const createLock = (lockName, plainTextPassword) => (dispatch, getState) 
                 payload: result.data
             })
         })
+        .catch(err => {
+            dispatch({
+                type: actions.CREATE_LOCK_FAILED,
+                payload: err.response.data
+            })
+        })
 }
 
 export const activateLock = (lock, durationInSeconds) => (dispatch, getState) => {
