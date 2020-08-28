@@ -6,17 +6,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
-import pl.jakubraban.springdesist.exception.LockException;
 import pl.jakubraban.springdesist.config.security.SecretKey;
+import pl.jakubraban.springdesist.exception.LockException;
 
 import javax.persistence.*;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 
 @Entity
+@Table(name = "password_lock", uniqueConstraints = @UniqueConstraint(columnNames = {"owner_id", "name"}))
 @NoArgsConstructor(access = AccessLevel.PACKAGE, force = true)
 @Getter
-@Table(name = "password_lock")
 public class Lock {
 
     @Id
@@ -27,6 +27,7 @@ public class Lock {
     @JsonIgnore
     private User owner;
 
+    @Column(length = 50)
     private String name;
     private String encryptedPassword;
     private ZonedDateTime timeCreated;

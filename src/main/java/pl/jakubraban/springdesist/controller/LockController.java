@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import pl.jakubraban.springdesist.exception.LockAlreadyExistsException;
 import pl.jakubraban.springdesist.form.CreateLockForm;
 import pl.jakubraban.springdesist.form.LockOpenResponseForm;
 import pl.jakubraban.springdesist.model.Lock;
@@ -47,9 +48,11 @@ public class LockController {
 
     @PostMapping("/locks")
     public ResponseEntity<Lock> createLock(@RequestBody CreateLockForm form, Principal principal) {
-        Lock newLock = new Lock(userRepository.findByEmail(principal.getName()),
-                form.getLockName(),
-                form.getPlainTextPassword());
+        User requestingUser = userRepository.findByEmail(principal.getName());
+        Lock existingLock = lockRepository.findByName(form.getLockName());
+        if (existingLock != null && existingLock.getOwner().equals(requestingUser))
+            throw new LockAlreadyExistsException("You already have a lock with this name");
+        Lock newLock = new Lock(requestingUser, form.getLockName(), form.getPlainTextPassword());
         return new ResponseEntity<>(lockRepository.save(newLock), HttpStatus.CREATED);
     }
 

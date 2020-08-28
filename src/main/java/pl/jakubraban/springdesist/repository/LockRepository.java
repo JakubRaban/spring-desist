@@ -10,5 +10,6 @@ import java.util.Set;
 public interface LockRepository extends JpaRepository<Lock, Long> {
 
     Set<Lock> findAllByOwner(User lockOwner);
+    Lock findByName(String name);
 
 }
