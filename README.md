@@ -48,7 +48,7 @@ public class SecretKey {
     }
 }
 ```
-where `getForJWT()` returns byte array of length 64 and `getForLockOpening()` returns hexadecimal String of length 32.
+where `getForJWT()` returns byte array of length 64 and `getForLockOpening()` returns hexadecimal String of length 32 (their implementation is up to you).
 
 ### Execution
 In project's main directory, run:
@@ -56,3 +56,16 @@ In project's main directory, run:
 $ docker-compose up
 ```
 It will automatically download all required images and run the application.
+
+## FAQ
+**Is it secure?**
+
+This project was not meant to be 100% secure. To make it better secured, the requests would have to be using HTTPS. Also database and encryption would have to be unknown and not hardcoded, but stored on an HSM, for example.
+
+**But even if I use this, I can always reset my password using a link sent to my email**
+
+Use Desist to store the password to your email account then.
+
+**But what if I need my email and my password is encrypted?**
+
+Well, you knew what you were doing.
