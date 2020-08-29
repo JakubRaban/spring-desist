@@ -2,6 +2,8 @@
 Desist stops you from accessing your own online accounts by securely storing your passwords and not letting you see them until some period of time (given by you) passes.
 
 ## How it works
+**Short demo available on YouTube [here](https://youtu.be/BZd3ef44_6s)**
+
 Assume you don't want to visit your Facebook account for the following week:
 - Register, confirm your email and login into Desist
 - Create a _lock_ (named Facebook or likewise) and give it some random, immemorizable password (or press "Generate randomly")
