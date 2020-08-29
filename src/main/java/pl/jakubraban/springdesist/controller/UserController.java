@@ -3,6 +3,7 @@ package pl.jakubraban.springdesist.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import pl.jakubraban.springdesist.exception.UserAlreadyExistsException;
 import pl.jakubraban.springdesist.mail.DesistEmailService;
 import pl.jakubraban.springdesist.model.RegistrationToken;
 import pl.jakubraban.springdesist.model.User;
@@ -28,6 +29,7 @@ public class UserController {
 
     @PostMapping("/register")
     public User register(@RequestBody User user) {
+        if (userRepository.findByEmail(user.getEmail()) != null) throw new UserAlreadyExistsException("There's already a user with this email. Please login instead.");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         RegistrationToken token = new RegistrationToken(user);
         tokenRepository.save(token);

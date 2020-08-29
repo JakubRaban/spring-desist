@@ -24,6 +24,12 @@ export const register = (name, email, password) => (dispatch, getState) => {
                 payload: result.data
             })
         })
+        .catch(err => {
+            dispatch({
+                type: actions.REGISTRATION_FAIL,
+                payload: err.response.data
+            })
+        })
 }
 
 export const confirmRegistration = token => (dispatch, getState) => {

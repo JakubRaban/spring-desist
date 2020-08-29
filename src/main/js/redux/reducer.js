@@ -1,7 +1,6 @@
 
 import * as actions from './action-types'
 import * as OperationPhase from '../OperationPhase'
-import {INIT} from "../OperationPhase";
 
 export const initialState = {
     user: {
@@ -78,6 +77,17 @@ export default function reducer(state = initialState, action) {
                     ...state.actions,
                     register: {
                         phase: OperationPhase.SUCCESS
+                    }
+                }
+            }
+        case actions.REGISTRATION_FAIL:
+            return {
+                ...state,
+                actions: {
+                    ...state.actions,
+                    register: {
+                        phase: OperationPhase.FAIL,
+                        error: action.payload.message
                     }
                 }
             }

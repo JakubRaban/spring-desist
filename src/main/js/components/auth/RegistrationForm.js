@@ -39,6 +39,9 @@ class RegistrationForm extends React.Component {
                             <Alert variant={"success"} show={this.props.registrationPhase === OperationPhase.SUCCESS}>
                                 Registration successful. Check your email account and confirm registration.
                             </Alert>
+                            <Alert variant={"danger"} show={this.props.registrationPhase === OperationPhase.FAIL}>
+                                Error: {this.props.registrationError}
+                            </Alert>
                             {this.props.registrationPhase !== OperationPhase.SUCCESS &&
                             <>
                                 <Form>
@@ -88,6 +91,7 @@ class RegistrationForm extends React.Component {
 const mapStateToProps = state => ({
     user: state.user,
     registrationPhase: state.actions.register.phase,
+    registrationError: state.actions.register.error
 })
 
 export default connect(mapStateToProps, {register})(RegistrationForm);

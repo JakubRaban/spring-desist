@@ -3,6 +3,7 @@ export const LOGIN_SUCCESSFUL = "loginSuccessful";
 export const LOGIN_FAILED = "loginFailed";
 export const REGISTRATION_INIT = "registrationInit";
 export const REGISTRATION_SUCCESSFUL = "registrationSuccessful";
+export const REGISTRATION_FAIL = "registrationFailed"
 export const CONFIRMATION_INIT = "confirmationInit";
 export const CONFIRMATION_SUCCESSFUL = "confirmationSuccessful";
 export const CONFIRMATION_FAILED = "confirmationFailed";
