@@ -15,7 +15,6 @@ import java.util.*;
 @Entity
 @Data
 @NoArgsConstructor(access = AccessLevel.PACKAGE, force = true)
-@RequiredArgsConstructor
 public class User implements UserDetails {
 
     private static final long serialVersionUID = 1L;
@@ -25,10 +24,10 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(nullable = false)
-    private final String name;
+    private String name;
 
     @Column(unique = true, nullable = false, length = 60)
-    private final String email;
+    private String email;
 
     @Column(nullable = false)
     private String password;
