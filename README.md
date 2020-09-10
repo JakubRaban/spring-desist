@@ -1,8 +1,11 @@
 # Desist
 Desist stops you from accessing your own online accounts by securely storing your passwords and not letting you see them until some period of time (given by you) passes.
 
+This is a web app rewrite of earlier pure Java, CLI project: https://github.com/JakubRaban/desist
+
 ## How it works
-**Short demo available on YouTube [here](https://youtu.be/BZd3ef44_6s)**
+**Short demo is available on YouTube:**
+[![Demo](https://img.youtube.com/vi/BZd3ef44_6s/hqdefault.jpg)](https://youtu.be/BZd3ef44_6s)
 
 Assume you don't want to visit your Facebook account for the following week:
 - Register, confirm your email and login into Desist
@@ -69,3 +72,7 @@ Use Desist to store the password to your email account then.
 **But what if I need my email and my password is encrypted?**
 
 Well, you knew what you were doing.
+
+## Still to do
+- logging out (invalidating JWT and redirecting to login)
+- form validation in JS
