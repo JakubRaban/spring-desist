@@ -14,7 +14,7 @@ import java.util.*;
 
 @Entity
 @Data
-@NoArgsConstructor(access = AccessLevel.PACKAGE, force = true)
+@NoArgsConstructor(access = AccessLevel.PUBLIC, force = true)
 public class User implements UserDetails {
 
     private static final long serialVersionUID = 1L;
