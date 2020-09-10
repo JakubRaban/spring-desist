@@ -4,7 +4,8 @@ import * as OperationPhase from '../OperationPhase'
 
 export const initialState = {
     user: {
-        isLoggedIn: false
+        isLoggedIn: false,
+        data: {}
     },
     locks: [],
     actions: {
@@ -119,6 +120,14 @@ export default function reducer(state = initialState, action) {
                     registerConfirm: {
                         phase: OperationPhase.FAIL
                     }
+                }
+            }
+        case actions.GET_USER:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    data: action.payload
                 }
             }
         case actions.GET_LOCKS:

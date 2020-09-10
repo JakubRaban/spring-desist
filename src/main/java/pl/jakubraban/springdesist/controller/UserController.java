@@ -10,6 +10,8 @@ import pl.jakubraban.springdesist.model.User;
 import pl.jakubraban.springdesist.repository.RegistrationTokenRepository;
 import pl.jakubraban.springdesist.repository.UserRepository;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -50,6 +52,11 @@ public class UserController {
         confirmedUser.setEnabled(true);
         userRepository.save(confirmedUser);
         return confirmedUser;
+    }
+
+    @GetMapping("/whoami")
+    public User whoAmI(Principal principal) {
+        return userRepository.findByEmail(principal.getName());
     }
 
 }

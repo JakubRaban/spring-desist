@@ -32,6 +32,14 @@ export const register = (name, email, password) => (dispatch, getState) => {
         })
 }
 
+export const whoAmI = () => (dispatch, getState) => {
+    axios({method: 'get', url: `/api/whoami`, headers: getHeaders(getState)})
+        .then(result => dispatch({
+            type: actions.GET_USER,
+            payload: result.data
+        }))
+}
+
 export const confirmRegistration = token => (dispatch, getState) => {
     dispatch({type: actions.CONFIRMATION_INIT})
     axios({method: 'patch', url: `/api/register/confirm/${token}`, headers: getHeaders(getState)})
